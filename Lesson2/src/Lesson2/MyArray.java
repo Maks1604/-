@@ -3,9 +3,21 @@ package Lesson2;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class MyArray<T> implements Iterable<T>{
+public class MyArray<T> implements Iterable<T> {
     private int size = 0;
     private Object[] array = new Object[1];
+
+    public MyArray(int size) {
+        this.array = new Object[size];
+        this.size = size;
+    }
+
+    public MyArray(MyArray array) {
+        this(array.size);
+        for (int i = 0; i < array.size; i++) {
+            this.array[i] = array.getItemArray(i);
+        }
+    }
 
     public T getItemArray(int index) {
         if (index < 0 || index > size - 1) {
@@ -39,7 +51,9 @@ public class MyArray<T> implements Iterable<T>{
 
     public boolean remove(T t) {
         int index = indexOf(t);
-        if (index == - 1) { return false; }
+        if (index == -1) {
+            return false;
+        }
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
@@ -61,7 +75,7 @@ public class MyArray<T> implements Iterable<T>{
     }
 
     public boolean isExist(T t) {
-        return indexOf(t) != - 1;
+        return indexOf(t) != -1;
     }
 
 
@@ -98,7 +112,7 @@ public class MyArray<T> implements Iterable<T>{
     }
 
     public int size() {
-            return size;
+        return size;
     }
 
     private void exch(int i, int j) {
@@ -128,8 +142,7 @@ public class MyArray<T> implements Iterable<T>{
             for (int j = i; j > 0; j--) {
                 if (less((T) array[j], (T) array[j - 1], cmp)) {
                     exch(j, j - 1);
-                }
-                else {
+                } else {
                     break;
                 }
             }
@@ -144,11 +157,9 @@ public class MyArray<T> implements Iterable<T>{
             int mid = low + (high - low) / 2;
             if (cmp.compare(t, (T) array[mid]) < 0) {
                 high = mid - 1;
-            }
-            else if (cmp.compare(t, (T) array[mid]) > 0) {
+            } else if (cmp.compare(t, (T) array[mid]) > 0) {
                 low = mid + 1;
-            }
-            else {
+            } else {
                 return true;
             }
         }
