@@ -8,17 +8,38 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int n = 1000000;
+        int n = 30000;
         int a = 100;
         int b = 10000;
+        System.out.println("---------------------------------------------");
+        System.out.println(" № | Сортировка втавкой | Сортировка выбором");
+        System.out.println("---------------------------------------------");
+        for (int i = 0; i < 20 ; i++) {
+            MyArray array = CreateRandomArray(n, a, b);
+            double insert =insertSort(new MyArray(array));
+            double selection = selectionSort(new MyArray(array));
+            System.out.printf("%4d|      %5.3f         |        %5.3f       \n", i+1,insert,selection);
+            System.out.println("---------------------------------------------");
+        }
 
-        MyArray array = CreateRandomArray(n, a, b);
-        System.out.print(array.toString());
-        System.out.println();
+
+
+
+    }
+
+
+    private static double selectionSort (MyArray array){
+        double startTime =  System.currentTimeMillis()/1000.0;
+        array.selectionSort(new IntegerComparator());
+        double stopTime = System.currentTimeMillis()/1000.0-startTime;
+        return stopTime;
+    }
+
+    private static double insertSort (MyArray array){
+        double startTime = System.currentTimeMillis()/1000.0;
         array.insertionSort(new IntegerComparator());
-        System.out.print(array.toString());
-
-
+        double stopTime = System.currentTimeMillis()/1000.0-startTime;
+        return stopTime;
     }
 
     private static MyArray<Integer> CreateRandomArray(int n, int a, int b) {
