@@ -14,31 +14,29 @@ public class Main {
         System.out.println("---------------------------------------------");
         System.out.println(" № | Сортировка втавкой | Сортировка выбором");
         System.out.println("---------------------------------------------");
-        for (int i = 0; i < 20 ; i++) {
+        for (int i = 0; i < 20; i++) {
             MyArray array = CreateRandomArray(n, a, b);
-            double insert =insertSort(new MyArray(array));
+            double insert = insertSort(new MyArray(array));
             double selection = selectionSort(new MyArray(array));
-            System.out.printf("%4d|      %5.3f         |        %5.3f       \n", i+1,insert,selection);
+            System.out.printf("%4d|      %5.3f         |        %5.3f       \n", i + 1, insert, selection);
             System.out.println("---------------------------------------------");
         }
 
 
-
-
     }
 
 
-    private static double selectionSort (MyArray array){
-        double startTime =  System.currentTimeMillis()/1000.0;
+    private static double selectionSort(MyArray array) {
+        double startTime = System.currentTimeMillis() / 1000.0;
         array.selectionSort(new IntegerComparator());
-        double stopTime = System.currentTimeMillis()/1000.0-startTime;
+        double stopTime = System.currentTimeMillis() / 1000.0 - startTime;
         return stopTime;
     }
 
-    private static double insertSort (MyArray array){
-        double startTime = System.currentTimeMillis()/1000.0;
+    private static double insertSort(MyArray array) {
+        double startTime = System.currentTimeMillis() / 1000.0;
         array.insertionSort(new IntegerComparator());
-        double stopTime = System.currentTimeMillis()/1000.0-startTime;
+        double stopTime = System.currentTimeMillis() / 1000.0 - startTime;
         return stopTime;
     }
 
