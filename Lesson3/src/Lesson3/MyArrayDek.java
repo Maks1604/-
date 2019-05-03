@@ -7,7 +7,7 @@ public class MyArrayDek<T> {
     private int sizeRight = 0;
     private int sizeLeft = 0;
     private int size = 0;
-
+private boolean isflag;
     public int getSizeRight() {
         return sizeRight;
     }
@@ -23,28 +23,44 @@ public class MyArrayDek<T> {
 
     private void resize(int capacity) {
         Object[] tmp = new Object[capacity];
-        int newSizeLeft = sizeLeft;
+        int newSizeLeft = sizeLeft < 0 ? 0 : sizeLeft;
+        if (isflag){
+            newSizeLeft++;
+        }
         sizeLeft = (capacity - size) / 2;
         sizeRight = size + sizeLeft;
-        for (int i = sizeLeft, j=newSizeLeft; i < sizeRight; i++, j++) {
+        for (int i = sizeLeft, j = newSizeLeft; i < sizeRight; i++, j++) {
             tmp[i] = stack[j];
         }
+
         stack = tmp;
+
 
     }
 
     public void insertLeft(T t) {
-        if (sizeLeft<0) {
+
+        while (sizeLeft < 0) {
             resize(stack.length * 2);
+            if (stack[sizeLeft] != null) {
+                sizeLeft--;
+            }
         }
 
+        if (stack[sizeLeft] != null) {
+            sizeLeft--;
+        }
         stack[sizeLeft--] = t;
+
         size++;
+
     }
 
     public void insertRight(T t) {
         if (sizeRight == stack.length) {
+            isflag=true;
             resize(stack.length * 2);
+            isflag=false;
         }
 
         stack[sizeRight++] = t;
@@ -55,9 +71,14 @@ public class MyArrayDek<T> {
         if (isEmpty()) {
             throw new NoSuchElementException("Stack is empty");
         }
-        T t = (T) stack[sizeLeft + 1];
-        stack[sizeLeft + 1] = null;
+//        if (sizeLeft<0)
+//        {
+//            sizeLeft=0;
+//        }
+        T t = (T) stack[sizeLeft<0?0:sizeLeft];
+        stack[sizeLeft<0?0:sizeLeft ] = null;
         sizeLeft++;
+        size--;
         if (size == stack.length / 4 && size > 0) {
             resize(stack.length / 2);
         }
@@ -71,8 +92,11 @@ public class MyArrayDek<T> {
         T t = (T) stack[sizeRight - 1];
         stack[sizeRight - 1] = null;
         sizeRight--;
+        size--;
         if (size == stack.length / 4 && size > 0) {
+            isflag=true;
             resize(stack.length / 2);
+            isflag=false;
         }
         return t;
     }

@@ -5,17 +5,23 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(revers("кошка умывалась"));
         MyArrayDek<Integer> dek = new MyArrayDek<>();
+        dek.insertLeft(5);
+        dek.insertLeft(6);
+        dek.insertLeft(7);
+        dek.insertLeft(2);
         dek.insertRight(8);
         dek.insertRight(9);
         dek.insertRight(9);
         dek.insertRight(9);
-        dek.insertLeft(5);
-        dek.insertLeft(6);
-        dek.insertLeft(7);
+
 
         System.out.println(dek.toString());
         dek.removeLeft();
+        dek.removeLeft();
+        dek.insertLeft(4);
         dek.removeRight();
+        dek.removeRight();
+        dek.insertRight(8);
         System.out.println(dek.toString());
 
     }
