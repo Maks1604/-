@@ -127,26 +127,47 @@ public class MyLinkedList<T> implements Iterable<T> {
         if (index < 0 || index > size - 1) {
             throw new IndexOutOfBoundsException();
         }
-        Node currentNode = first;
-        int currentIndex = 0;
-        while (currentIndex < index) {
-            currentNode = currentNode.next;
-            currentIndex++;
+        if (index<=size/2) {
+            Node currentNode = first;
+            int currentIndex = 0;
+            while (currentIndex < index) {
+                currentNode = currentNode.next;
+                currentIndex++;
+            }
+            return currentNode.t;
+        } else {
+            Node currentNode = last;
+            int currentIndex = size-1;
+            while (currentIndex > index) {
+                currentNode = currentNode.previous;
+                currentIndex--;
+            }
+            return currentNode.t;
         }
-        return currentNode.t;
+
     }
 
     public void set(int index, T t) {
         if (index < 0 || index > size - 1) {
             throw new IndexOutOfBoundsException();
         }
-        Node currentNode = first;
-        int currentIndex = 0;
-        while (currentIndex < index) {
-            currentNode = currentNode.next;
-            currentIndex++;
+        if (index<=size/2) {
+            Node currentNode = first;
+            int currentIndex = 0;
+            while (currentIndex < index) {
+                currentNode = currentNode.next;
+                currentIndex++;
+            }
+            currentNode.t = t;
+        } else {
+            Node currentNode = last;
+            int currentIndex = size-1;
+            while (currentIndex > index) {
+                currentNode = currentNode.previous;
+                currentIndex--;
+            }
+            currentNode.t = t;
         }
-        currentNode.t = t;
     }
 
     public int indexOf(T t) {

@@ -22,12 +22,14 @@ public class Main {
         linkedList.removeLast();
         linkedList.removeFirst();
         System.out.println(linkedList.size());
-        //System.out.println(linkedList);
 
-        for (Character item:
+        for (Character item :
                 linkedList) {
             System.out.println(item);
         }
+
+        Iterator iterator = linkedList.iterator();
         
+
     }
 }
