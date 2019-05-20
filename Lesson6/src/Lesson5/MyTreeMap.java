@@ -1,5 +1,6 @@
 package Lesson5;
 
+
 import java.util.NoSuchElementException;
 
 public class MyTreeMap<Key extends Comparable<Key>, Value> {
@@ -9,24 +10,30 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
         Node left;
         Node right;
         int size; //кол-во узлов в дереве, корнем которого является данный узел
-        public Node(Key key, Value value, int size) {
+        int height; //высота узла
+
+        public Node(Key key, Value value, int size, int height) {
             this.key = key;
             this.value = value;
             this.size = size;
+            this.height = height;
         }
     }
 
     private Node root = null;
 
-    public boolean isEmpty() { return root == null; }
+    public boolean isEmpty() {
+        return root == null;
+    }
 
-    public int size() { return size(root); }
+    public int size() {
+        return size(root);
+    }
 
     private int size(Node node) {
         if (node == null) {
             return 0;
-        }
-        else {
+        } else {
             return node.size;
         }
     }
@@ -49,11 +56,46 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
         }
         if (cmp < 0) {
             return get(key, node.left);
-        }
-        else { //cmp > 0
+        } else { //cmp > 0
             return get(key, node.right);
         }
     }
+
+    public boolean isBalanced() {
+
+        return isBalanced(root);
+
+
+    }
+
+    private boolean isBalanced(Node node) {
+
+        if (node.left == null && node.right == null) {
+            return true;
+        } else if (node.left != null && node.right != null) {
+            int dif = Math.abs(node.left.height - node.right.height);
+            if (dif > 1) {
+                return false;
+            } else {
+               return  isBalanced(node.left) && isBalanced(node.right);
+            }
+        } else if (node.left != null && node.right == null) {
+            if (node.height>1) {
+                return false;
+            } else {
+                return isBalanced(node.left);
+            }
+        } else if (node.right != null && node.left == null) {
+            if (node.height>1) {
+                return false;
+            } else {
+                return isBalanced(node.right);
+            }
+        }
+
+        return false;
+    }
+
 
     public void put(Key key, Value value) { //a[key] = value
         root = put(key, value, root);
@@ -65,53 +107,67 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
         }
 
         if (node == null) {
-            return new Node(key, value, 1);
+            return new Node(key, value, 1, 0);
         }
 
         int cmp = key.compareTo(node.key);
         if (cmp == 0) {
             node.value = value;
-        }
-        else if (cmp < 0) { //!!!!!!Here was mistake. I forgot "else" statement.
+        } else if (cmp < 0) { //!!!!!!Here was mistake. I forgot "else" statement.
             node.left = put(key, value, node.left);
-        }
-        else { //cmp > 0
+        } else { //cmp > 0
             node.right = put(key, value, node.right);
         }
         node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
         return node;
     }
+
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node node) {
+        if (node == null) {
+            return 0;
+        } else {
+            return node.height;
+        }
+    }
+
 
     private Node min(Node node) {
         if (node.left == null) {
             return node;
-        }
-        else {
+        } else {
             return min(node.left);
         }
     }
 
-    public Value min() { return min(root).value; }
+    public Value min() {
+        return min(root).value;
+    }
 
     private Node max(Node node) {
         if (node.right == null) {
             return node;
-        }
-        else {
+        } else {
             return max(node.right);
         }
     }
 
-    public Value max() { return max(root).value; }
+    public Value max() {
+        return max(root).value;
+    }
 
     private Node removeMin(Node node) {
         if (node.left == null) {
             return node.right;
-        }
-        else {
+        } else {
             node.left = removeMin(node.left);
         }
         node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
         return node;
     }
 
@@ -125,11 +181,11 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
     private Node removeMax(Node node) {
         if (node.right == null) {
             return node.left;
-        }
-        else {
+        } else {
             node.right = removeMax(node.right);
         }
         node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
         return node;
     }
 
@@ -140,7 +196,9 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
         root = removeMax(root);
     }
 
-    public void remove(Key key) { root = remove(key, root); }
+    public void remove(Key key) {
+        root = remove(key, root);
+    }
 
     private Node remove(Key key, Node node) {
         if (node == null) {
@@ -161,14 +219,13 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
             node.left = removeMax(tmp.left);
             node.right = tmp.right; //node.right = removeMin(node.right);
             tmp = null;
-        }
-        else if (cmp < 0) {
+        } else if (cmp < 0) {
             node.left = remove(key, node.left);
-        }
-        else { //cmp >
+        } else { //cmp >
             node.right = remove(key, node.right);
         }
         node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
         return node;
     }
 
