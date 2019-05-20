@@ -1,20 +1,26 @@
 package Lesson5;
 
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
-        MyTreeMap<Integer, Integer> myTreeMap = new MyTreeMap<>();
-        myTreeMap.put(25, 1);
-        myTreeMap.put(20, 1);
-        myTreeMap.put(22, 1);
-        myTreeMap.put(10, 1);
-        myTreeMap.put(40, 1);
-        myTreeMap.put(9, 1);
-        myTreeMap.put(45, 1);
-        myTreeMap.put(50, 1);
+        Random random = new Random();
+        int countNotBalanced = 0;
+        MyTreeMap<Integer, Integer> myTreeMap[] = new MyTreeMap[20];
+        for (int i = 0; i < myTreeMap.length; i++) {
+            myTreeMap[i] = new MyTreeMap<>();
+            do {
+                myTreeMap[i].put(random.nextInt(200)-100,1);
+            }while (myTreeMap[i].height()<6);
 
-        System.out.println(myTreeMap.height());
-        System.out.println(myTreeMap.isBalanced());
+            if (!myTreeMap[i].isBalanced()) {
+                countNotBalanced++;
+            }
+        }
+
+        System.out.println(countNotBalanced/myTreeMap.length*100+"%");
+
 
     }
 }
